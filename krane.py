@@ -138,7 +138,7 @@ safeExit()                          # reset ports on normal exit
 
 
 #try:
-#                                    # the arguments for loop are 
+#                                    # the arguments for loop are marts hidden change 
 #    loop(140, 1024, 1, '+')         #(start_pwm, stop_pwm, step, printchar)
 #    loop(994, 110, -1, '-')         # 140 is enough to spin up my motor,
 #                                    # 70 is about right to stop it
