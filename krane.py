@@ -4,11 +4,9 @@
 # This code uses WiringPi for Python which uses hardware PWM on Gertboard.
 # All print statements in this prog must now be in python 3 format.
 # Sids Test Change.
-<<<<<<< HEAD
 # Another thing to delete
-=======
 # Sids Test Change 2.
->>>>>>> 153c32517a893fa1f9fc94955a784aa3a7b98df1
+# Sids Test Change 3 at work.
 
 from __future__ import print_function               
 import wiringpi
