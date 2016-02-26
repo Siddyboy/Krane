@@ -20,14 +20,13 @@ import pygame.event as CRANE_EVENTS     # Import this for keyboard event
 
 
 
-
-def safeExit(debug=False):
+def safeExit():
     """Ensures exit is handled cleanly.
     
     Shuts down hardware, quits pygame, and raises SystemExit.
     
     Args:
-        debug: defaults to False.
+        None.
     
     Returns:
         None.
@@ -35,17 +34,17 @@ def safeExit(debug=False):
     Raises:
         SystemExit.
     """
-    if debug:
+    if __debug__:
         print("Quiting WiringPi.")
     wiringpi.pwmWrite(18,0)                 # set pwm to zero
     wiringpi.digitalWrite(18, 0)            # port 18 off
     wiringpi.digitalWrite(17, 0)            # port 17 off
     wiringpi.pinMode(17,0)                  # port 17 back to input mode
     wiringpi.pinMode(18,0)                  # port 18 back to input mode
-    if debug:
+    if __debug__:
         print("Quiting Pygame.")
     pygame.quit()
-    if debug:
+    if __debug__:
         print("Raising SystemExit.")
     raise SystemExit
     print("Bye 3")
@@ -67,9 +66,6 @@ rest = 0.013                    # vary "sleep" time for testing purposes
                                 
 def main():
 
-    debug = True  # TODO(SCJK): Find out if this is the best way to do debugging
-                  # without crufting up the code.
-
     windowSize = width, height = 500, 400
 
     pygame.init()
@@ -87,6 +83,7 @@ def main():
     upSlow = False
     downSlow = False
     stopNow = True
+    hookSpeed = 0
     
     try:
         while True:
@@ -96,7 +93,7 @@ def main():
                 sleep(5)
             
                 if upSlow is True:
-                    # TODO(SCJK): hook.upSlow()
+                    # TODO(SCJK): hook.upSlow(hookSpeed?)
                     print("up slow called")
 
                 if downSlow is True:
@@ -159,8 +156,6 @@ def main():
 if __name__ == '__main__':
     main()
             
-            
-
 # TODO(SCJK): Cruft left over from original GertBoard example. Delete when up
 # and running with crane. Also contains Martin's hidden change!
 #                                    # the arguments for loop are marts hidden change 
