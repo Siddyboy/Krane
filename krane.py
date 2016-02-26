@@ -18,35 +18,16 @@ import pygame.locals as CRANE_GLOBALS   # Import this for keyboard K_constants.
 import pygame.event as CRANE_EVENTS     # Import this for keyboard event
                                         # detection.
 
-debug = True  # TODO(SCJK): Find out if this is the best way to do debugging
-              # without crufting up the code.
-
-windowSize = width, height = 500, 400
-
-pygame.init()
-surface = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
-pygame.display.set_caption('Kingsley Krane')
-
-wiringpi.wiringPiSetupGpio()                # Initialise wiringpi GPIO
-wiringpi.pinMode(18,2)                      # Set up GPIO 18 to PWM mode
-wiringpi.pinMode(17,1)                      # GPIO 17 to output
-wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
-wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
-
-craneStarted = False
-craneStopped = False
-upSlow = False
-downSlow = False
-stopNow = True
 
 
-def safeExit():
+
+def safeExit(debug=False):
     """Ensures exit is handled cleanly.
     
     Shuts down hardware, quits pygame, and raises SystemExit.
     
     Args:
-        None.
+        debug: defaults to False.
     
     Returns:
         None.
@@ -85,6 +66,28 @@ rest = 0.013                    # vary "sleep" time for testing purposes
 
                                 
 def main():
+
+    debug = True  # TODO(SCJK): Find out if this is the best way to do debugging
+                  # without crufting up the code.
+
+    windowSize = width, height = 500, 400
+
+    pygame.init()
+    surface = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
+    pygame.display.set_caption('Kingsley Krane')
+
+    wiringpi.wiringPiSetupGpio()                # Initialise wiringpi GPIO
+    wiringpi.pinMode(18,2)                      # Set up GPIO 18 to PWM mode
+    wiringpi.pinMode(17,1)                      # GPIO 17 to output
+    wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
+    wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
+
+    craneStarted = False
+    craneStopped = False
+    upSlow = False
+    downSlow = False
+    stopNow = True
+    
     try:
         while True:
             if craneStarted and not craneStopped:
