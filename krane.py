@@ -84,7 +84,7 @@ rest = 0.013                    # vary "sleep" time for testing purposes
                                 #~ 0.013 is about right in use
 
                                 
-def main()
+def main():
     try:
         while True:
             if craneStarted and not craneStopped:
