@@ -17,6 +17,7 @@ import pygame
 import pygame.locals as CRANE_GLOBALS   # Import this for keyboard K_constants.
 import pygame.event as CRANE_EVENTS     # Import this for keyboard event
                                         # detection.
+import krane_hook
 
 def safe_exit():
     """Ensures exit is handled cleanly.
@@ -69,7 +70,10 @@ def main():
     hook_speed = 0
     
     try:
-        while True:
+        
+	hook = krane_hook.KraneHook()	
+
+	while True:
 
 	    print(stop_now)
 
@@ -88,8 +92,10 @@ def main():
 		    sleep(5)
 
                 if stop_now is True:
-                    # TODO(SCJK): hook.stop()
-                    # TODO(SCJK): everything else stop too.
+		    print("Before call to hook")
+                    hook.stop()
+                    up_slow = False
+		    down_slow = False
                     print("Emergency Stop!")
 		    sleep(5)
 
