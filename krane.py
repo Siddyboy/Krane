@@ -20,7 +20,7 @@ import pygame.event as CRANE_EVENTS     # Import this for keyboard event
 
 
 
-def safeExit():
+def safe_exit():
     """Ensures exit is handled cleanly.
     
     Shuts down hardware, quits pygame, and raises SystemExit.
@@ -78,37 +78,37 @@ def main():
     wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
     wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
 
-    craneStarted = False
-    craneStopped = False
-    upSlow = False
-    downSlow = False
-    stopNow = True
-    hookSpeed = 0
+    crane_started = False
+    crane_stopped = False
+    up_slow = False
+    down_slow = False
+    stop_now = True
+    hook_speed = 0
     
     try:
         while True:
-            if craneStarted and not craneStopped:
+            if crane_started and not crane_stopped:
 
                 print("Krane Started")
                 sleep(5)
             
-                if upSlow is True:
+                if up_slow is True:
                     # TODO(SCJK): hook.upSlow(hookSpeed?)
                     print("up slow called")
 
-                if downSlow is True:
+                if down_slow is True:
                     # TODO(SCJK): hook.downSlow()
                     print("down slow called")
 
-                if stopNow is True:
+                if stop_now is True:
                     # TODO(SCJK): hook.stop()
                     # TODO(SCJK): everything else stop too.
                     print("Emergency Stop!")
 
-            elif not craneStarted and not craneStopped:
+            elif not crane_started and not crane_stopped:
                 print("Start Screen Displayed! Welcome to Crane")
 
-            elif craneStarted and craneStopped:
+            elif crane_started and crane_stopped:
                 print("End Screen Displayed. Bye!")
 
             # Handle user events
@@ -121,37 +121,37 @@ def main():
                     print("inside event if")
 
                     if event.key == pygame.K_ESCAPE:
-                        safeExit()
+                        safe_exit()
                     elif event.key == pygame.K_UP:
-                        upSlow = True
-                        downSlow = False
+                        up_slow = True
+                        down_slow = False
                     elif event.key == pygame.K_DOWN:
-                        upSlow = False
-                        downSlow = True
+                        up_slow = False
+                        down_slow = True
                     elif event.key == pygame.K_s:
-                        upSlow = False
-                        downSlow = False
-                        stopNow = True
+                        up_slow = False
+                        down_slow = False
+                        stop_now = True
                     elif event.key == pygame.K_o:
-                        if not craneStarted and not craneStopped:
-                            craneStarted = True
-                        elif craneStarted and not craneStopped:
-                            craneStopped = True
+                        if not crane_started and not crane_stopped:
+                            crane_started = True
+                        elif crane_started and not crane_stopped:
+                            crane_stopped = True
 
                 if event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
-                        upSlow = False
+                        up_slow = False
                     if event.key == pygame.K_DOWN:
-                        downSlow = False
+                        down_slow = False
 
                 if event.type == CRANE_GLOBALS.QUIT:
-                    safeExit()       
+                    safe_exit()       
 
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
-        safeExit()                      # reset ports on interrupt 
+        safe_exit()                     # reset ports on interrupt 
 
-    safeExit()                          # reset ports on normal exit
+    safe_exit()                          # reset ports on normal exit
 
 if __name__ == '__main__':
     main()
