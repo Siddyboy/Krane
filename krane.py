@@ -18,8 +18,6 @@ import pygame.locals as CRANE_GLOBALS   # Import this for keyboard K_constants.
 import pygame.event as CRANE_EVENTS     # Import this for keyboard event
                                         # detection.
 
-
-
 def safe_exit():
     """Ensures exit is handled cleanly.
     
@@ -49,21 +47,6 @@ def safe_exit():
     raise SystemExit
     print("Bye 3")
 
-# TODO(SCJK): Abstract this functionality away into a class in another module.
-# define the main loop that we run in four different ways 
-# controlled by the function arguments
-def loop(start_pwm, stop_pwm, step, printchar): 
-    for x in range(start_pwm, stop_pwm, step):  
-        wiringpi.pwmWrite(18,x)
-        # if x is an exact multiple of 19, i.e. x/19 has remainder 0
-        if x % (19) == 0:                   
-            display(printchar)              # print the + or - character
-        sleep(rest)
-
-rest = 0.013                    # vary "sleep" time for testing purposes
-                                #~ 0.013 is about right in use
-
-                                
 def main():
 
     windowSize = width, height = 500, 400
@@ -82,31 +65,36 @@ def main():
     crane_stopped = False
     up_slow = False
     down_slow = False
-    stop_now = True
+    stop_now = False
     hook_speed = 0
     
     try:
         while True:
+
+	    print(stop_now)
+
             if crane_started and not crane_stopped:
 
                 print("Krane Started")
-                sleep(5)
             
                 if up_slow is True:
                     # TODO(SCJK): hook.upSlow(hookSpeed?)
                     print("up slow called")
+		    sleep(5)
 
                 if down_slow is True:
                     # TODO(SCJK): hook.downSlow()
                     print("down slow called")
+		    sleep(5)
 
                 if stop_now is True:
                     # TODO(SCJK): hook.stop()
                     # TODO(SCJK): everything else stop too.
                     print("Emergency Stop!")
+		    sleep(5)
 
             elif not crane_started and not crane_stopped:
-                print("Start Screen Displayed! Welcome to Crane")
+                print("Start Screen Displayed - Welcome to Crane")
 
             elif crane_started and crane_stopped:
                 print("End Screen Displayed. Bye!")
@@ -121,18 +109,28 @@ def main():
                     print("inside event if")
 
                     if event.key == pygame.K_ESCAPE:
-                        safe_exit()
+                        print("ESC Press Detected")
+			sleep(3)
+			safe_exit()
                     elif event.key == pygame.K_UP:
+			print("UP Press Detected")
+			sleep(3)
                         up_slow = True
                         down_slow = False
                     elif event.key == pygame.K_DOWN:
-                        up_slow = False
+                        print("DOWN Press Detected")
+			sleep(3)
+			up_slow = False
                         down_slow = True
-                    elif event.key == pygame.K_s:
+                    elif event.key == pygame.K_SPACE:
+                        print("SPACE Press Detected")
+			sleep(3)
                         up_slow = False
                         down_slow = False
                         stop_now = True
                     elif event.key == pygame.K_o:
+			print("'O' Press Detected")
+			sleep(3)	
                         if not crane_started and not crane_stopped:
                             crane_started = True
                         elif crane_started and not crane_stopped:
@@ -141,9 +139,13 @@ def main():
                 if event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
-                        up_slow = False
+			print("UP Release Detected")
+                        sleep(3)
+			up_slow = False
                     if event.key == pygame.K_DOWN:
-                        down_slow = False
+			print("DOWN Release Detected")
+                        sleep(3)
+			down_slow = False
 
                 if event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()       
