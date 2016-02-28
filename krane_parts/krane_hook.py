@@ -12,6 +12,9 @@
 #rest = 0.013                    # vary "sleep" time for testing purposes
 #                                #~ 0.013 is about right in use
  
+import wiringpi
+from time import sleep
+
 class KraneHook(object):
     '''Represents the crane hook itself'''
     pass
@@ -21,6 +24,10 @@ class KraneHook(object):
 
     def stop(self):
         '''Stops the hook dead.'''
+	
+	wiringpi.pwmWrite(18, 900)
+	sleep(2)
+	wiringpi.pwmWrite(18, 0)
         print("STOP DEAD!")
 
 #            hook_speed = 0

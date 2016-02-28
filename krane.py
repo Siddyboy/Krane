@@ -17,7 +17,7 @@ import pygame
 import pygame.locals as CRANE_GLOBALS   # Import this for keyboard K_constants.
 import pygame.event as CRANE_EVENTS     # Import this for keyboard event
                                         # detection.
-import krane_hook
+import krane_parts
 
 def safe_exit():
     """Ensures exit is handled cleanly.
@@ -33,18 +33,15 @@ def safe_exit():
     Raises:
         SystemExit.
     """
-    if __debug__:
-        print("Quiting WiringPi.")
+    if __debug__: print("Quiting WiringPi.")
     wiringpi.pwmWrite(18,0)                 # set pwm to zero
     wiringpi.digitalWrite(18, 0)            # port 18 off
     wiringpi.digitalWrite(17, 0)            # port 17 off
     wiringpi.pinMode(17,0)                  # port 17 back to input mode
     wiringpi.pinMode(18,0)                  # port 18 back to input mode
-    if __debug__:
-        print("Quiting Pygame.")
+    if __debug__: print("Quiting Pygame.")
     pygame.quit()
-    if __debug__:
-        print("Raising SystemExit.")
+    if __debug__: print("Raising SystemExit.")
     raise SystemExit
     print("Bye 3")
 
@@ -56,11 +53,13 @@ def main():
     surface = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
     pygame.display.set_caption('Kingsley Krane')
 
-    wiringpi.wiringPiSetupGpio()                # Initialise wiringpi GPIO
-    wiringpi.pinMode(18,2)                      # Set up GPIO 18 to PWM mode
-    wiringpi.pinMode(17,1)                      # GPIO 17 to output
-    wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
-    wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
+# TODO(SCJK): Delete this section once up and running inside /krane_parts/
+# __init__.py. 
+#    wiringpi.wiringPiSetupGpio()                # Initialise wiringpi GPIO
+#    wiringpi.pinMode(18,2)                      # Set up GPIO 18 to PWM mode
+#    wiringpi.pinMode(17,1)                      # GPIO 17 to output
+#    wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
+#    wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
 
     crane_started = False
     crane_stopped = False
@@ -71,7 +70,7 @@ def main():
     
     try:
         
-	hook = krane_hook.KraneHook()	
+	hook = krane_parts.krane_hook.KraneHook()	
 
 	while True:
 
@@ -92,6 +91,7 @@ def main():
 		    sleep(5)
 
                 if stop_now is True:
+		    stop_now = False
 		    print("Before call to hook")
                     hook.stop()
                     up_slow = False
@@ -108,11 +108,7 @@ def main():
             # Handle user events
             for event in CRANE_EVENTS.get():
 
-                print("inside event for")
-
                 if event.type == pygame.KEYDOWN:
-
-                    print("inside event if")
 
                     if event.key == pygame.K_ESCAPE:
                         print("ESC Press Detected")
