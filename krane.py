@@ -34,11 +34,11 @@ def safe_exit():
         SystemExit.
     """
     if __debug__: print("Quiting WiringPi.")
-    wiringpi.pwmWrite(18,0)                 # set pwm to zero
+    wiringpi.pwmWrite(18, 0)                # set pwm to zero
     wiringpi.digitalWrite(18, 0)            # port 18 off
     wiringpi.digitalWrite(17, 0)            # port 17 off
-    wiringpi.pinMode(17,0)                  # port 17 back to input mode
-    wiringpi.pinMode(18,0)                  # port 18 back to input mode
+    wiringpi.pinMode(17, 0)                 # port 17 back to input mode
+    wiringpi.pinMode(18, 0)                 # port 18 back to input mode
     if __debug__: print("Quiting Pygame.")
     pygame.quit()
     if __debug__: print("Raising SystemExit.")
@@ -63,9 +63,9 @@ def main():
 
     crane_started = False
     crane_stopped = False
-    up_slow = False
-    down_slow = False
-    stop_now = False
+    hook_up_slow = False
+    hook_down_slow = False
+    hook_stop_now = False
     hook_speed = 0
     
     try:
@@ -74,35 +74,42 @@ def main():
 
 	while True:
 
-	    print(stop_now)
+	    print(hook_stop_now)
 
             if crane_started and not crane_stopped:
 
                 print("Krane Started")
             
-                if up_slow is True:
-                    # TODO(SCJK): hook.upSlow(hookSpeed?)
+                if hook_up_slow is True:
+                    hook.up_slow(hook_speed)
                     print("up slow called")
-		    sleep(5)
+# TODO(SCJK): Yes, but nothing stops the hook going up is hook_up_slow turns 
+# False again. Maybe just a call to stop will do the trick? Same is true for
+# hook down!
 
-                if down_slow is True:
-                    # TODO(SCJK): hook.downSlow()
-                    print("down slow called")
-		    sleep(5)
+                if hook_down_slow is True:
+                    hook.down_slow(hook_speed)
+		    print("down slow called")
 
-                if stop_now is True:
-		    stop_now = False
+                if hook_stop_now is True:
+		    # TODO(SCJK): Probably have to tidy up the logic here.	
+		    hook_stop_now = False
 		    print("Before call to hook")
                     hook.stop()
-                    up_slow = False
-		    down_slow = False
+                    hook_up_slow = False
+		    hook_down_slow = False
                     print("Emergency Stop!")
 		    sleep(5)
 
             elif not crane_started and not crane_stopped:
+		# TODO(SCJK): Compare with Fred's Bad Day to see what stops
+		# this being repeated ad infinitum. Or maybe it doesn't 
+		# matter in pygame?
                 print("Start Screen Displayed - Welcome to Crane")
 
             elif crane_started and crane_stopped:
+		# TODO(SCJK): See comment on start screen display - why does it
+		# keep repeating?
                 print("End Screen Displayed. Bye!")
 
             # Handle user events
@@ -117,19 +124,19 @@ def main():
                     elif event.key == pygame.K_UP:
 			print("UP Press Detected")
 			sleep(3)
-                        up_slow = True
-                        down_slow = False
+                        hook_up_slow = True
+                        hook_down_slow = False
                     elif event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
 			sleep(3)
-			up_slow = False
-                        down_slow = True
+			hook_up_slow = False
+                        hook_down_slow = True
                     elif event.key == pygame.K_SPACE:
                         print("SPACE Press Detected")
 			sleep(3)
-                        up_slow = False
-                        down_slow = False
-                        stop_now = True
+                        hook_up_slow = False
+                        hook_down_slow = False
+                        hook_stop_now = True
                     elif event.key == pygame.K_o:
 			print("'O' Press Detected")
 			sleep(3)	
@@ -143,11 +150,11 @@ def main():
                     if event.key == pygame.K_UP:
 			print("UP Release Detected")
                         sleep(3)
-			up_slow = False
+			hook_up_slow = False
                     if event.key == pygame.K_DOWN:
 			print("DOWN Release Detected")
                         sleep(3)
-			down_slow = False
+			hook_down_slow = False
 
                 if event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()       
