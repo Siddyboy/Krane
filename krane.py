@@ -1,6 +1,21 @@
 #!/usr/bin/env python2.7
 # TODO(SCJK): Find out if should be /usr/bin/python2 as detailed in python
 # styleguide.
+#
+#
+#
+#
+#
+#
+# TODO(SCJK): Change nano tabs/spaces to 4 on RPi. See http://stackoverflow.com/questions/11173769/how-to-make-the-tab-character-4-spaces-instead-of-8-spaces-in-nano
+#
+#
+#
+#
+#
+#
+#
+#
 # This code uses WiringPi for Python which uses hardware PWM on Gertboard.
 # All print statements in this prog must now be in python 3 format.
 # Sids Test Change.
