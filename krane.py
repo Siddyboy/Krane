@@ -1,21 +1,6 @@
 #!/usr/bin/env python2.7
 # TODO(SCJK): Find out if should be /usr/bin/python2 as detailed in python
 # styleguide.
-#
-#
-#
-#
-#
-#
-# TODO(SCJK): Change nano tabs/spaces to 4 on RPi. See http://stackoverflow.com/questions/11173769/how-to-make-the-tab-character-4-spaces-instead-of-8-spaces-in-nano
-#
-#
-#
-#
-#
-#
-#
-#
 # This code uses WiringPi for Python which uses hardware PWM on Gertboard.
 # All print statements in this prog must now be in python 3 format.
 # Sids Test Change.
@@ -68,14 +53,6 @@ def main():
     surface = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
     pygame.display.set_caption('Kingsley Krane')
 
-# TODO(SCJK): Delete this section once up and running inside /krane_parts/
-# __init__.py. 
-#    wiringpi.wiringPiSetupGpio()                # Initialise wiringpi GPIO
-#    wiringpi.pinMode(18,2)                      # Set up GPIO 18 to PWM mode
-#    wiringpi.pinMode(17,1)                      # GPIO 17 to output
-#    wiringpi.digitalWrite(17, 0)                # port 17 off for rotation one way
-#    wiringpi.pwmWrite(18,0)                     # set pwm to zero initially
-
     crane_started = False
     crane_stopped = False
     hook_up_slow = False
@@ -104,57 +81,57 @@ def main():
 
                 if hook_down_slow is True:
                     hook.down_slow(hook_speed)
-		    print("down slow called")
+                    print("down slow called")
 
                 if hook_stop_now is True:
-		    # TODO(SCJK): Probably have to tidy up the logic here.	
-		    hook_stop_now = False
-		    print("Before call to hook")
+# TODO(SCJK): Probably have to tidy up the logic here.	
+                    hook_stop_now = False
+                    print("Before call to hook")
                     hook.stop()
                     hook_up_slow = False
-		    hook_down_slow = False
+                    hook_down_slow = False
                     print("Emergency Stop!")
-		    sleep(5)
+                    sleep(5)
 
             elif not crane_started and not crane_stopped:
-		# TODO(SCJK): Compare with Fred's Bad Day to see what stops
-		# this being repeated ad infinitum. Or maybe it doesn't 
-		# matter in pygame?
+# TODO(SCJK): Compare with Fred's Bad Day to see what stops
+# this being repeated ad infinitum. Or maybe it doesn't 
+# matter in pygame?
                 print("Start Screen Displayed - Welcome to Crane")
 
             elif crane_started and crane_stopped:
-		# TODO(SCJK): See comment on start screen display - why does it
-		# keep repeating?
+# TODO(SCJK): See comment on start screen display - why does it
+# keep repeating?
                 print("End Screen Displayed. Bye!")
 
-            # Handle user events
+# Handle user events
             for event in CRANE_EVENTS.get():
 
                 if event.type == pygame.KEYDOWN:
 
                     if event.key == pygame.K_ESCAPE:
                         print("ESC Press Detected")
-			sleep(3)
-			safe_exit()
+                        sleep(3)
+                        safe_exit()
                     elif event.key == pygame.K_UP:
-			print("UP Press Detected")
-			sleep(3)
+                        print("UP Press Detected")
+                        sleep(3)
                         hook_up_slow = True
                         hook_down_slow = False
                     elif event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
-			sleep(3)
-			hook_up_slow = False
+                        sleep(3)
+                        hook_up_slow = False
                         hook_down_slow = True
                     elif event.key == pygame.K_SPACE:
                         print("SPACE Press Detected")
-			sleep(3)
+                        sleep(3)
                         hook_up_slow = False
                         hook_down_slow = False
                         hook_stop_now = True
                     elif event.key == pygame.K_o:
-			print("'O' Press Detected")
-			sleep(3)	
+                        print("'O' Press Detected")
+                        sleep(3)	
                         if not crane_started and not crane_stopped:
                             crane_started = True
                         elif crane_started and not crane_stopped:
@@ -163,13 +140,13 @@ def main():
                 if event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
-			print("UP Release Detected")
+                        print("UP Release Detected")
                         sleep(3)
-			hook_up_slow = False
+                        hook_up_slow = False
                     if event.key == pygame.K_DOWN:
-			print("DOWN Release Detected")
+                        print("DOWN Release Detected")
                         sleep(3)
-			hook_down_slow = False
+                        hook_down_slow = False
 
                 if event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()       
@@ -177,7 +154,7 @@ def main():
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
         safe_exit()                     # reset ports on interrupt 
 
-    safe_exit()                          # reset ports on normal exit
+    safe_exit()                         # reset ports on normal exit
 
 if __name__ == '__main__':
     main()
