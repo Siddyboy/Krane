@@ -1,5 +1,5 @@
 import wiringpi
-from time import sleep
+#from time import sleep
 
 class KraneHook(object):
     '''Represents the crane hook itself'''
@@ -12,13 +12,13 @@ class KraneHook(object):
 
 #       hook_speed = 0
 #	    return hook_speed
-#            
+            
     def up_slow(self, hook_speed):
         '''Moves the hook up slowly.'''
 	
         print("Going up slow...")    
         wiringpi.digitalWrite(17, 0)
-        wiringpi.pwmWrite(18, 500)            
+        wiringpi.pwmWrite(18, 500)
             
     def down_slow(self, hook_speed):
         '''Moves the hook down slowly.'''

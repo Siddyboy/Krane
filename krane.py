@@ -43,7 +43,7 @@ def safe_exit():
     pygame.quit()
     if __debug__: print("Raising SystemExit.")
     raise SystemExit
-    print("Bye 3")
+    
 
 def main():
 
@@ -60,13 +60,16 @@ def main():
     hook_stop_now = False
     hook_speed = 0
     
+    start_screen = pygame.image.load("assets/cmax.jpg")
+    print(start_screen)
+    
     try:
         
-	hook = krane_parts.krane_hook.KraneHook()	
+        hook = krane_parts.krane_hook.KraneHook()	
 
-	while True:
+        while True:
 
-	    print(hook_stop_now)
+            print(hook_stop_now)
 
             if crane_started and not crane_stopped:
 
@@ -97,7 +100,8 @@ def main():
 # TODO(SCJK): Compare with Fred's Bad Day to see what stops
 # this being repeated ad infinitum. Or maybe it doesn't 
 # matter in pygame?
-                print("Start Screen Displayed - Welcome to Crane")
+#                print("Start Screen Displayed - Welcome to Crane")
+                surface.blit(start_screen, (0, 0))
 
             elif crane_started and crane_stopped:
 # TODO(SCJK): See comment on start screen display - why does it
@@ -150,6 +154,8 @@ def main():
 
                 if event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()       
+
+        pygame.display.update()
 
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
         safe_exit()                     # reset ports on interrupt 
