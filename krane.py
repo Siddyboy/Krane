@@ -61,19 +61,22 @@ def main():
     hook_speed = 0
     
     start_screen = pygame.image.load("assets/cmax.jpg")
-    print(start_screen)
-    
+    end_screen = pygame.image.load("assets/over.jpg")
+    on_button = pygame.image.load("assets/on.jpg")
+    off_button = pygame.image.load("assets/off.jpg")
+
+    surface.blit(start_screen, (0, 0))
+    pygame.display.update()
+        
     try:
         
         hook = krane_parts.krane_hook.KraneHook()	
 
         while True:
 
-            print(hook_stop_now)
-
             if crane_started and not crane_stopped:
 
-                print("Krane Started")
+                surface.blit(on_button, (0, 0))
             
                 if hook_up_slow is True:
                     hook.up_slow(hook_speed)
@@ -88,25 +91,18 @@ def main():
 
                 if hook_stop_now is True:
 # TODO(SCJK): Probably have to tidy up the logic here.	
-                    hook_stop_now = False
                     print("Before call to hook")
                     hook.stop()
                     hook_up_slow = False
                     hook_down_slow = False
+                    hook_stop_now = False
                     print("Emergency Stop!")
-                    sleep(5)
 
             elif not crane_started and not crane_stopped:
-# TODO(SCJK): Compare with Fred's Bad Day to see what stops
-# this being repeated ad infinitum. Or maybe it doesn't 
-# matter in pygame?
-#                print("Start Screen Displayed - Welcome to Crane")
-                surface.blit(start_screen, (0, 0))
+                surface.blit(off_button, (0, 0))
 
             elif crane_started and crane_stopped:
-# TODO(SCJK): See comment on start screen display - why does it
-# keep repeating?
-                print("End Screen Displayed. Bye!")
+                surface.blit(off_button, (0, 0))
 
 # Handle user events
             for event in CRANE_EVENTS.get():
@@ -115,51 +111,52 @@ def main():
 
                     if event.key == pygame.K_ESCAPE:
                         print("ESC Press Detected")
-                        sleep(3)
                         safe_exit()
                     elif event.key == pygame.K_UP:
                         print("UP Press Detected")
-                        sleep(3)
                         hook_up_slow = True
                         hook_down_slow = False
                     elif event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
-                        sleep(3)
                         hook_up_slow = False
                         hook_down_slow = True
                     elif event.key == pygame.K_SPACE:
                         print("SPACE Press Detected")
-                        sleep(3)
                         hook_up_slow = False
                         hook_down_slow = False
                         hook_stop_now = True
                     elif event.key == pygame.K_o:
                         print("'O' Press Detected")
-                        sleep(3)	
                         if not crane_started and not crane_stopped:
+                            hook_stop_now = True
                             crane_started = True
+                            crane_stopped = False
                         elif crane_started and not crane_stopped:
                             crane_stopped = True
+                            crane_started = False
 
                 if event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
                         print("UP Release Detected")
-                        sleep(3)
                         hook_up_slow = False
                     if event.key == pygame.K_DOWN:
                         print("DOWN Release Detected")
-                        sleep(3)
                         hook_down_slow = False
 
                 if event.type == CRANE_GLOBALS.QUIT:
-                    safe_exit()       
-
-        pygame.display.update()
+                    safe_exit()
+                    
+            print("Started, Stopped, Hook Up, Hook Down, Hook Stop")
+            print(crane_started, "  ", crane_stopped, "  ", hook_up_slow, "  ", hook_down_slow, "    ", hook_stop_now)            
+            pygame.display.update()
+            sleep(0.5)
 
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
         safe_exit()                     # reset ports on interrupt 
 
+    surface.blit(end_screen, (0, 0))
+    pygame.display.update()
     safe_exit()                         # reset ports on normal exit
 
 if __name__ == '__main__':
