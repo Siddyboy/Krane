@@ -147,6 +147,7 @@ def main():
         safe_exit()                     # reset ports on interrupt 
 
     surface.blit(end_screen, (0, 0))
+# TODO(SCJK): Create Clock() object at beginning and call tick(60) here to limit framerate. See pygame docs and freds_bad_day githuv version.
     pygame.display.update()
     safe_exit()                         # reset ports on normal exit
 
