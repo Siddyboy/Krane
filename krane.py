@@ -50,6 +50,7 @@ def main():
     windowSize = width, height = 500, 400
 
     pygame.init()
+    clock = pygame.time.Clock()
     surface = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
     pygame.display.set_caption('Kingsley Krane')
 
@@ -126,28 +127,27 @@ def main():
                         elif crane_on:
                             crane_on = False
  
-                if event.type == pygame.KEYUP:
+                elif event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
                         print("UP Release Detected")
                         hook_stop_now = True
-                    if event.key == pygame.K_DOWN:
+                    elif event.key == pygame.K_DOWN:
                         print("DOWN Release Detected")
                         hook_stop_now = True
 
-                if event.type == CRANE_GLOBALS.QUIT:
+                elif event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()
                     
             print("Krane On, Hook Up, Hook Down, Hook Stop")
             print(crane_on, "   ", hook_up_slow, "  ", hook_down_slow, "    ", hook_stop_now)            
+            clock.tick(60)
             pygame.display.update()
-            sleep(0.2)
 
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
         safe_exit()                     # reset ports on interrupt 
 
     surface.blit(end_screen, (0, 0))
-# TODO(SCJK): Create Clock() object at beginning and call tick(60) here to limit framerate. See pygame docs and freds_bad_day githuv version.
     pygame.display.update()
     safe_exit()                         # reset ports on normal exit
 
