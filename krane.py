@@ -81,7 +81,7 @@ def main():
                 if hook_up_slow is True:
                     hook.up_slow(hook_speed)
                     print("up slow called")
-
+# TODO(SCJK): make these elif statements???????????????????
                 if hook_down_slow is True:
                     hook.down_slow(hook_speed)
                     print("down slow called")
