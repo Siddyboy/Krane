@@ -77,19 +77,18 @@ def main():
             if crane_on:
 
                 surface.blit(on_button, (0, 0))
-            
+
                 if hook_up_slow is True:
                     hook.up_slow(hook_speed)
                     print("up slow called")
-                elif hook_down_slow is True:
+                
+                if hook_down_slow is True:
                     hook.down_slow(hook_speed)
                     print("down slow called")
-                elif hook_stop_now is True:
-# TODO(SCJK): Probably have to tidy up the logic here.	
-                    print("Before call to hook")
+                
+                if hook_stop_now is True:
                     hook.stop()
-                    hook_up_slow = False
-                    hook_down_slow = False
+                    sleep(1)
                     hook_stop_now = False
                     print("Emergency Stop!")
 
@@ -104,22 +103,26 @@ def main():
                     if event.key == pygame.K_ESCAPE:
                         print("ESC Press Detected")
                         safe_exit()
-                    elif event.key == pygame.K_UP:
+                    
+                    if event.key == pygame.K_UP:
                         print("UP Press Detected")
                         hook_up_slow = True
                         hook_down_slow = False
                         hook_stop_now = False
-                    elif event.key == pygame.K_DOWN:
+                    
+                    if event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
                         hook_up_slow = False
                         hook_down_slow = True
                         hook_stop_now = False
-                    elif event.key == pygame.K_SPACE:
+                    
+                    if event.key == pygame.K_SPACE:
                         print("SPACE Press Detected")
                         hook_up_slow = False
                         hook_down_slow = False
                         hook_stop_now = True
-                    elif event.key == pygame.K_o:
+                    
+                    if event.key == pygame.K_o:
                         print("'O' Press Detected")
                         hook_stop_now = True
                         if not crane_on:
@@ -131,9 +134,14 @@ def main():
     
                     if event.key == pygame.K_UP:
                         print("UP Release Detected")
+                        hook_up_slow = False
+                        hook_down_slow = False
                         hook_stop_now = True
-                    elif event.key == pygame.K_DOWN:
+                        
+                    if event.key == pygame.K_DOWN:
                         print("DOWN Release Detected")
+                        hook_up_slow = False
+                        hook_down_slow = False
                         hook_stop_now = True
 
                 elif event.type == CRANE_GLOBALS.QUIT:
@@ -141,7 +149,7 @@ def main():
                     
             print("Krane On, Hook Up, Hook Down, Hook Stop")
             print(crane_on, "   ", hook_up_slow, "  ", hook_down_slow, "    ", hook_stop_now)            
-            clock.tick(60)
+            clock.tick(10)
             pygame.display.update()
 
     except KeyboardInterrupt:           # trap a CTRL+C keyboard interrupt
