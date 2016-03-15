@@ -81,12 +81,10 @@ def main():
                 if hook_up_slow is True:
                     hook.up_slow(hook_speed)
                     print("up slow called")
-# TODO(SCJK): make these elif statements???????????????????
-                if hook_down_slow is True:
+                elif hook_down_slow is True:
                     hook.down_slow(hook_speed)
                     print("down slow called")
-
-                if hook_stop_now is True:
+                elif hook_stop_now is True:
 # TODO(SCJK): Probably have to tidy up the logic here.	
                     print("Before call to hook")
                     hook.stop()
@@ -110,10 +108,12 @@ def main():
                         print("UP Press Detected")
                         hook_up_slow = True
                         hook_down_slow = False
+                        hook_stop_now = False
                     elif event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
                         hook_up_slow = False
                         hook_down_slow = True
+                        hook_stop_now = False
                     elif event.key == pygame.K_SPACE:
                         print("SPACE Press Detected")
                         hook_up_slow = False
