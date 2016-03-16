@@ -3,13 +3,8 @@
 # styleguide.
 # This code uses WiringPi for Python which uses hardware PWM on Gertboard.
 # All print statements in this prog must now be in python 3 format.
-# Sids Test Change.
-# Another thing to delete
-# Sids Test Change 2.
-# Sids Test Change 3 at work.
-# Another change from work
 
-from __future__ import print_function               
+from __future__ import print_function   # Allows Python3 style print()            
 import wiringpi
 import sys
 from time import sleep
@@ -57,7 +52,6 @@ def main():
     crane_on = False
     hook_up_slow = False
     hook_down_slow = False
-    hook_stop_now = False
     hook_speed = 0
     
     start_screen = pygame.image.load("assets/cmax.jpg")
@@ -80,18 +74,11 @@ def main():
 
                 if hook_up_slow is True:
                     hook.up_slow(hook_speed)
-                    print("up slow called")
-                
-                if hook_down_slow is True:
+                elif hook_down_slow is True:
                     hook.down_slow(hook_speed)
-                    print("down slow called")
-                
-                if hook_stop_now is True:
+                else:
                     hook.stop()
-                    sleep(1)
-                    hook_stop_now = False
-                    print("Emergency Stop!")
-
+                     
             elif not crane_on:
                 surface.blit(off_button, (0, 0))
             
@@ -108,24 +95,15 @@ def main():
                         print("UP Press Detected")
                         hook_up_slow = True
                         hook_down_slow = False
-                        hook_stop_now = False
                     
                     if event.key == pygame.K_DOWN:
                         print("DOWN Press Detected")
                         hook_up_slow = False
                         hook_down_slow = True
-                        hook_stop_now = False
-                    
-                    if event.key == pygame.K_SPACE:
-                        print("SPACE Press Detected")
-                        hook_up_slow = False
-                        hook_down_slow = False
-                        hook_stop_now = True
                     
                     if event.key == pygame.K_o:
                         print("'O' Press Detected")
-                        hook_stop_now = True
-                        if not crane_on:
+                        if not crane_on:o
                             crane_on = True
                         elif crane_on:
                             crane_on = False
@@ -136,19 +114,17 @@ def main():
                         print("UP Release Detected")
                         hook_up_slow = False
                         hook_down_slow = False
-                        hook_stop_now = True
                         
                     if event.key == pygame.K_DOWN:
                         print("DOWN Release Detected")
                         hook_up_slow = False
                         hook_down_slow = False
-                        hook_stop_now = True
 
                 elif event.type == CRANE_GLOBALS.QUIT:
                     safe_exit()
                     
-            print("Krane On, Hook Up, Hook Down, Hook Stop")
-            print(crane_on, "   ", hook_up_slow, "  ", hook_down_slow, "    ", hook_stop_now)            
+            print("Krane On, Hook Up, Hook Down")
+            print(crane_on, "   ", hook_up_slow, "  ", hook_down_slow)            
             clock.tick(10)
             pygame.display.update()
 
@@ -161,16 +137,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-            
-# TODO(SCJK): Cruft left over from original GertBoard example. Delete when up
-# and running with crane. Also contains Martin's hidden change!
-#                                    # the arguments for loop are marts hidden change 
-#    loop(140, 1024, 1, '+')         #(start_pwm, stop_pwm, step, printchar)
-#    loop(994, 110, -1, '-')         # 140 is enough to spin up my motor,
-#                                    # 70 is about right to stop it
-#
-#    wiringpi.digitalWrite(17, 1)    # port 17 ON for opposite rotation
-#  
-#    loop(954, 89, -1, '+')
-#    loop(121, 1024, 1, '-')
-#

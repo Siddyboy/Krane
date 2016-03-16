@@ -1,18 +1,20 @@
 import wiringpi
-#from time import sleep
 
 class KraneHook(object):
     '''Represents the crane hook itself'''
 
+    def __init__(self):
+        '''Stops the hook.'''
+        
+        self.stop()    
+    
     def stop(self):
         '''Stops the hook dead.'''
 	
         wiringpi.pwmWrite(18, 0)
         print("STOP DEAD!")
 
-#       hook_speed = 0
-#	    return hook_speed
-            
+         
     def up_slow(self, hook_speed):
         '''Moves the hook up slowly.'''
 	
