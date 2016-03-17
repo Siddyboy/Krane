@@ -103,7 +103,7 @@ def main():
                     
                     if event.key == pygame.K_o:
                         print("'O' Press Detected")
-                        if not crane_on:o
+                        if not crane_on:
                             crane_on = True
                         elif crane_on:
                             crane_on = False
