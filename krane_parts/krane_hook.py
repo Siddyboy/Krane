@@ -1,4 +1,4 @@
-import wiringpi
+import wiringpi as wp
 from constants import PWM_PIN
 from constants import DIR_PIN
 
@@ -12,25 +12,22 @@ class KraneHook(object):
     
     def stop(self):
         '''Stops the hook dead.'''
-	
-        wiringpi.pwmWrite(PWM_PIN, 0)
-        print("STOP DEAD!")
-         
-    def up_slow(self, hook_speed):
+
+        wp.digitalWrite(DIR_PIN, 0) 
+        wp.pwmWrite(PWM_PIN, 0)
+                
+    def up_slow(self):
         '''Moves the hook up slowly.'''
-	
-        print("Going up slow...")    
-        wiringpi.digitalWrite(DIR_PIN, 0)
-        wiringpi.pwmWrite(PWM_PIN, 600)
+
+        wp.digitalWrite(DIR_PIN, 1)
+        wp.pwmWrite(PWM_PIN, 1024)
             
-    def down_slow(self, hook_speed):
+    def down_slow(self):
         '''Moves the hook down slowly.'''
 
-        print("Going down slow...")
-        #wiringpi.digitalWrite(DIR_PIN, 1)
-        #wiringpi.pwmWrite(PWM_PIN, 500)
-        wiringpi.digitalWrite(DIR_PIN, 1)
-        wiringpi.pwmWrite(PWM_PIN, 1024)
+        wp.digitalWrite(DIR_PIN, 0)
+        wp.pwmWrite(PWM_PIN, 1023)
+
 
 
 

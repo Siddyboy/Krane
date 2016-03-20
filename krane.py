@@ -52,7 +52,6 @@ def main():
     crane_on = False
     hook_up_slow = False
     hook_down_slow = False
-    hook_speed = 0
     
     start_screen = pygame.image.load("assets/cmax.jpg")
     end_screen = pygame.image.load("assets/over.jpg")
@@ -73,9 +72,9 @@ def main():
                 surface.blit(on_button, (0, 0))
 
                 if hook_up_slow is True:
-                    hook.up_slow(hook_speed)
+                    hook.up_slow()
                 elif hook_down_slow is True:
-                    hook.down_slow(hook_speed)
+                    hook.down_slow()
                 else:
                     hook.stop()
                      
@@ -88,21 +87,17 @@ def main():
                 if event.type == pygame.KEYDOWN:
 
                     if event.key == pygame.K_ESCAPE:
-                        print("ESC Press Detected")
                         safe_exit()
                     
                     if event.key == pygame.K_UP:
-                        print("UP Press Detected")
                         hook_up_slow = True
                         hook_down_slow = False
                     
                     if event.key == pygame.K_DOWN:
-                        print("DOWN Press Detected")
                         hook_up_slow = False
                         hook_down_slow = True
                     
                     if event.key == pygame.K_o:
-                        print("'O' Press Detected")
                         if not crane_on:
                             crane_on = True
                         elif crane_on:
@@ -111,12 +106,10 @@ def main():
                 elif event.type == pygame.KEYUP:
     
                     if event.key == pygame.K_UP:
-                        print("UP Release Detected")
                         hook_up_slow = False
                         hook_down_slow = False
                         
                     if event.key == pygame.K_DOWN:
-                        print("DOWN Release Detected")
                         hook_up_slow = False
                         hook_down_slow = False
 
